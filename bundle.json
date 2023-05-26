@@ -11,8 +11,8 @@
     "scripts": {},
     "licensePath": "LICENSE.txt",
     "component": {
-        "name": "thirdparty_unity",
-        "subsystem": "",
+        "name": "unity",
+        "subsystem": "thirdparty",
         "syscap": [],
         "features": [],
         "adapted_system_type": [],
