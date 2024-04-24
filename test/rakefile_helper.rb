@@ -4,11 +4,11 @@
 #   [Released under MIT License. Please refer to license.txt for details]
 # ==========================================
 
-require 'yaml'
 require 'fileutils'
 require_relative '../auto/unity_test_summary'
 require_relative '../auto/generate_test_runner'
 require_relative '../auto/colour_reporter'
+require_relative '../auto/yaml_helper'
 
 module RakefileHelpers
   C_EXTENSION = '.c'.freeze
@@ -16,7 +16,7 @@ module RakefileHelpers
     return if $configured
 
     $cfg_file = "targets/#{config_file}" unless config_file =~ /[\\|\/]/
-    $cfg = YAML.load(File.read($cfg_file))
+    $cfg = YamlHelper.load_file($cfg_file)
     $colour_output = false unless $cfg['colour']
     $configured = true if config_file != DEFAULT_CONFIG_FILE
   end
@@ -173,7 +173,7 @@ module RakefileHelpers
   def execute(command_string, ok_to_fail = false)
     report command_string if $verbose
     output = `#{command_string}`.chomp
-    report(output) if $verbose && !output.nil? && !output.empty?
+    report(output) if ($verbose && !output.nil? && !output.empty?) || (!$?.nil? && !$?.exitstatus.zero? && !ok_to_fail)
     raise "Command failed. (Returned #{$?.exitstatus})" if !$?.nil? && !$?.exitstatus.zero? && !ok_to_fail
     output
   end
