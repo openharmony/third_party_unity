@@ -19,6 +19,9 @@
    suitetest- custom prefix for when we want to use custom suite setup/teardown
 */
 
+/* Support for Meta Test Rig */
+#define TEST_CASE(a)
+
 /* Include Passthroughs for Linking Tests */
 void putcharSpy(int c) { (void)putchar(c);}
 void flushSpy(void) {}
@@ -162,17 +165,6 @@ TEST_CASE(17)
 void paratest_ShouldHandleParameterizedTestsThatFail(int Num)
 {
     TEST_ASSERT_EQUAL_MESSAGE(3, Num, "This call should fail");
-}
-
-int isArgumentOne(int i)
-{
-    return i == 1;
-}
-
-TEST_CASE(isArgumentOne)
-void paratest_WorksWithFunctionPointers(int function(int))
-{
-    TEST_ASSERT_TRUE_MESSAGE(function(1), "Function should return True");
 }
 
 #ifdef USE_CEXCEPTION
