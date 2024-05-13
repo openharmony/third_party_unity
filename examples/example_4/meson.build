@@ -4,9 +4,9 @@
 #
 # license: MIT
 #
-project('example-4', 'c', meson_version: '>= 0.55.0')
+project('example-4', 'c')
 
-unity_dep = dependency('unity')
+unity_dep = dependency('unity', fallback : ['unity', 'unity_dep'])
 
 subdir('src')
 subdir('test')
