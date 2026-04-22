@@ -1,8 +1,9 @@
-/* ==========================================
-    Unity Project - A Test Framework for C
-    Copyright (c) 2007 Mike Karlesky, Mark VanderVoord, Greg Williams
-    [Released under MIT License. Please refer to license.txt for details]
-========================================== */
+/* =========================================================================
+    Unity - A Test Framework for C
+    ThrowTheSwitch.org
+    Copyright (c) 2007-25 Mike Karlesky, Mark VanderVoord, & Greg Williams
+    SPDX-License-Identifier: MIT
+========================================================================= */
 
 #include "unity.h"
 #define TEST_INSTANCES
@@ -292,13 +293,16 @@ void testFailureCountIncrementsAndIsReturnedAtEnd(void)
 #ifndef USING_OUTPUT_SPY
     TEST_IGNORE();
 #else
-    UNITY_UINT savedFailures = Unity.TestFailures;
+    int failures = 0;
+    UNITY_COUNTER_TYPE savedGetFlushSpyCalls = 0;
+    UNITY_COUNTER_TYPE savedFailures = Unity.TestFailures;
     Unity.CurrentTestFailed = 1;
     startPutcharSpy(); /* Suppress output */
     startFlushSpy();
+    savedGetFlushSpyCalls = getFlushSpyCalls();
     UnityConcludeTest();
     endPutcharSpy();
-    TEST_ASSERT_EQUAL(0, getFlushSpyCalls());
+    TEST_ASSERT_EQUAL(0, savedGetFlushSpyCalls);
     TEST_ASSERT_EQUAL(savedFailures + 1, Unity.TestFailures);
 #if defined(UNITY_OUTPUT_FLUSH) && defined(UNITY_OUTPUT_FLUSH_HEADER_DECLARATION)
     TEST_ASSERT_EQUAL(1, getFlushSpyCalls());
@@ -308,7 +312,7 @@ void testFailureCountIncrementsAndIsReturnedAtEnd(void)
     endFlushSpy();
 
     startPutcharSpy(); /* Suppress output */
-    int failures = UnityEnd();
+    failures = UnityEnd();
     Unity.TestFailures--;
     endPutcharSpy();
     TEST_ASSERT_EQUAL(savedFailures + 1, failures);
