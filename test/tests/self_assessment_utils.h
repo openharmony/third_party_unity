@@ -1,3 +1,10 @@
+/* =========================================================================
+    Unity - A Test Framework for C
+    ThrowTheSwitch.org
+    Copyright (c) 2007-25 Mike Karlesky, Mark VanderVoord, & Greg Williams
+    SPDX-License-Identifier: MIT
+========================================================================= */
+
 #ifdef TEST_INSTANCES
 
 #include <string.h>
@@ -62,8 +69,8 @@ static const UNITY_DOUBLE d_zero = 0.0;
 #define SPY_BUFFER_MAX 40
 static char putcharSpyBuffer[SPY_BUFFER_MAX];
 #endif
-static int indexSpyBuffer;
-static int putcharSpyEnabled;
+static UNITY_COUNTER_TYPE indexSpyBuffer;
+static UNITY_COUNTER_TYPE putcharSpyEnabled;
 
 void startPutcharSpy(void)
 {
@@ -101,8 +108,8 @@ void putcharSpy(int c)
 }
 
 /* This is for counting the calls to the flushSpy */
-static int flushSpyEnabled;
-static int flushSpyCalls = 0;
+static UNITY_COUNTER_TYPE flushSpyEnabled;
+static UNITY_COUNTER_TYPE flushSpyCalls = 0;
 
 void startFlushSpy(void)
 {
@@ -116,7 +123,7 @@ void endFlushSpy(void)
     flushSpyEnabled = 0;
 }
 
-int getFlushSpyCalls(void)
+UNITY_COUNTER_TYPE getFlushSpyCalls(void)
 {
     return flushSpyCalls;
 }
